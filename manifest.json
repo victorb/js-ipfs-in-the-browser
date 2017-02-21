@@ -9,6 +9,9 @@
 	"background": {
 		"scripts": ["dist/start-daemon.js"]
 	},
+  "browser_action": {
+    "default_icon": "icons/ipfs-offline.svg"
+  },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

@@ -8,19 +8,22 @@
 	<body>
 		<h1>Is IPFS in the browser yet?</h1>
 		<div id="status">Loading</div>
+		<div>Your ID: <span id='peerid'>N/A</span></div>
 		<script>
 document.addEventListener('DOMContentLoaded', () => {
 	$status = document.querySelector('#status')
+	$peerID = document.querySelector('#peerid')
 		console.log(window.ipfs)
 		if (typeof window.ipfs === 'undefined') {
 			$status.innerText = 'nope'
 		} else {
 			$status.innerText = 'YEAH!'
+			window.ipfs.id((res) => {
+				window.res = res
+				console.log(res)
+				$peerID.innerText = res.id
+			})
 		}
-		// window.ipfs.id((res) => {
-		// 	console.log('from inside page')
-		// 	console.log(res)
-		// })
 }, false)
 		</script>
 	</body>
