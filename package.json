@@ -10,10 +10,14 @@
     "ipfs": "^0.22.0",
     "setimmediate": "^1.0.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "web-ext": "^1.8.1"
+  },
   "scripts": {
     "test": "mocha",
-    "build": "browserify start-daemon.js -o dist/start-daemon.js"
+    "build": "browserify start-daemon.js -o dist/start-daemon.js",
+    "package": "web-ext build",
+    "sign": "web-ext sign"
   },
   "keywords": [],
   "author": "",

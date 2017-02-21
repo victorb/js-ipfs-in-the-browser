@@ -4,10 +4,24 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
 		<title>window.ipfs test page</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				height: 100vh;
+				background: linear-gradient(to bottom,#041727 0%,#062b3f 100%);
+				color: white;
+				text-align: center;
+				padding-top: 50px;
+			}
+
+			div {
+				margin-top: 50px;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>Is IPFS in the browser yet?</h1>
-		<div id="status">Loading</div>
+		<div><code>window.ipfs</code> exists? <span id="status">Loading</span></div>
 		<div>Your ID: <span id='peerid'>N/A</span></div>
 		<script>
 document.addEventListener('DOMContentLoaded', () => {
