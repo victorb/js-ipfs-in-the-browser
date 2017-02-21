@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "IPFS in the browser",
+  "version": "1.0",
+  "description": "Adds window.ipfs to all pages and starts a daemon in the background",
+  "icons": {
+    "48": "icons/ipfs.svg"
+  },
+	"background": {
+		"scripts": ["dist/start-daemon.js"]
+	},
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["page-script.js"],
+      "run_at": "document_start"
+    }
+  ],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  "permissions": ["tabs", "http://*/*", "https://*/*"]
+}
