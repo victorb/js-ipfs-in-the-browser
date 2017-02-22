@@ -8,13 +8,28 @@ spawn({}, (err, ipfsNode) => {
 
   browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
 
+  setInterval(() => {
+    ipfsNode.swarm.peers((err, peers) => {
+      if (err) throw err
+      console.log(peers)
+      const text = peers.length.toString()
+      browser.browserAction.setBadgeText({text})
+    })
+  }, 1000)
+
+  window.ipfs = ipfsNode
   const methods = {
-    'id': (send) => {
+    'id': (args, send) => {
       console.log('method#id')
       ipfsNode.id((err, id) => {
         if (err) throw err
-        console.log('responding')
         send(id)
+      })
+    },
+    'add': (args, send) => {
+      ipfsNode.files.add(new Buffer(args), (err, res) => {
+        if (err) throw err
+        send(res)
       })
     }
   }
@@ -23,10 +38,13 @@ spawn({}, (err, ipfsNode) => {
     port.onMessage.addListener((m) => {
       if (methods[m.method] !== undefined) {
         console.log('can make this call')
-        methods[m.method]((res) => {
+        methods[m.method](m.args, (res) => {
           console.log('made it and responding!')
+          console.log(res)
           port.postMessage(res)
         })
+      } else {
+        throw new Error('Method ' + m.method + ' is currently not exposed')
       }
     })
   })
