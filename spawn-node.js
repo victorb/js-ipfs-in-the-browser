@@ -22,7 +22,14 @@ function spawnNode (options, callback) {
         const wstarMultiaddr = `/libp2p-webrtc-star/dns/${signalDomain}/wss/ipfs/${config.Identity.PeerID}`
 
         config.Addresses.Swarm = [ wstarMultiaddr ]
-        config.Discovery.MDNS.Enabled = false
+        config.Discovery = {
+          MDNS: {
+            Enabled: false
+          },
+          webRTCStar: {
+            Enabled: true
+          }
+        }
 
         node.config.replace(config, cb)
       })
