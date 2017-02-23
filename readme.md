@@ -5,7 +5,7 @@
 * `npm install`
 * `npm run build`
 * Open `about:debugging` in Firefox and point it to the manifest.json in this repository
-* Now try the test page: https://ipfs.io/ipfs/QmcVc8eQiWkR23wMKiQjipLRSjCxR1FEj4TL99aY89J83d
+* Now try the test page: https://ipfs.io/ipfs/QmNnMpP1yJbcwREZHTPAjxFYgoNk5pGaudbHHq1t2ahDrb
 
 ### Packaging
 
