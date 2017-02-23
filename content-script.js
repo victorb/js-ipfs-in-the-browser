@@ -6,6 +6,10 @@ const myPort = browser.runtime.connect({name: 'port-from-cs'})
 const makeCall = (method, args, cb) => {
   const listener = (m) => {
     let {err, res} = m
+    if (res.on !== undefined) {
+      console.log('I think I got a stream')
+      console.log(res)
+    }
     cb(err, cloneInto(res, window, {cloneFunctions: true}))
     myPort.onMessage.removeListener(listener)
   }
