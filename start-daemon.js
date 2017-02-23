@@ -9,27 +9,45 @@ spawn({}, (err, ipfsNode) => {
   browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
 
   setInterval(() => {
-    ipfsNode.swarm.peers((err, peers) => {
-      if (err) throw err
-      console.log(peers)
-      const text = peers.length.toString()
-      browser.browserAction.setBadgeText({text})
-    })
+    if (ipfsNode.isOnline().isOnline) {
+      ipfsNode.swarm.peers((err, peers) => {
+        if (err) throw err
+        console.log(peers)
+        const text = peers.length.toString()
+        browser.browserAction.setBadgeText({text})
+      })
+    }
   }, 1000)
+
+  browser.browserAction.onClicked.addListener(() => {
+    if (ipfsNode.isOnline().isOnline) {
+      ipfsNode.goOffline(() => {
+        browser.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
+        browser.browserAction.setBadgeText({text: 'Offline'})
+      })
+    } else {
+      ipfsNode.goOnline(() => {
+        browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
+      })
+    }
+  })
 
   window.ipfs = ipfsNode
   const methods = {
     'id': (args, send) => {
       console.log('method#id')
       ipfsNode.id((err, id) => {
-        if (err) throw err
-        send(id)
+        send({err, res: id})
       })
     },
     'add': (args, send) => {
       ipfsNode.files.add(new Buffer(args), (err, res) => {
-        if (err) throw err
-        send(res)
+        send({err, res})
+      })
+    },
+    'cat': (args, send) => {
+      ipfsNode.files.cat(args, (err, res) => {
+        send({err, res})
       })
     }
   }

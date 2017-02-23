@@ -25,35 +25,57 @@
 		<div>Your ID: <span id='peerid'>N/A</span></div>
 		<div>
 			<h2>Add content</h2>
-			<input id='content' type="text"><button id='add-content'>Add</button>
-      <div id="hash"></div>
+			<input class='add-input' type="text"><button class='add-button'>Add</button>
+      <div class="add-output"></div>
+		</div>
+		<div>
+			<h2>Cat content</h2>
+			<input class='cat-input' type="text"><button class='cat-button'>Cat</button>
+      <div class="cat-output"></div>
 		</div>
 		<script>
-document.addEventListener('DOMContentLoaded', () => {
-	$status = document.querySelector('#status')
-	$peerID = document.querySelector('#peerid')
-	$content = document.querySelector('#content')
-	$addContent = document.querySelector('#add-content')
-	$hash = document.querySelector('#hash')
-		console.log(window.ipfs)
-		if (typeof window.ipfs === 'undefined') {
-			$status.innerText = 'nope'
-		} else {
-			$status.innerText = 'YEAH!'
-			window.ipfs.id((res) => {
-				console.log('Got ID')
-				$peerID.innerText = res.id
-			})
-			$addContent.addEventListener('click', () => {
-				const content = $content.value
-				window.ipfs.add(content, (res) => {
-					console.log('Got res')
-					console.log(res)
-          $hash.innerText = res[0].hash
-				})
-			}, false)
-		}
-}, false)
+$status = document.querySelector('#status')
+$peerID = document.querySelector('#peerid')
+
+$addOutput = document.querySelector('.add-output')
+$addButton = document.querySelector('.add-button')
+$addInput = document.querySelector('.add-input')
+
+$catOutput = document.querySelector('.cat-output')
+$catButton = document.querySelector('.cat-button')
+$catInput = document.querySelector('.cat-input')
+
+if (typeof window.ipfs === 'undefined') {
+  $status.innerText = 'nope'
+} else {
+  $status.innerText = 'YEAH!'
+  window.ipfs.id((err, res) => {
+    if (err) throw err
+    console.log('Got ID')
+    $peerID.innerText = res.id
+  })
+  $addButton.addEventListener('click', () => {
+    const content = $addInput.value
+    window.ipfs.add(content, (err, res) => {
+      if (err) throw err
+      console.log('Got res')
+      console.log(res)
+      $addOutput.innerText = res[0].hash
+    })
+  }, false)
+  $catButton.addEventListener('click', () => {
+    const hash = $catInput.value
+    window.ipfs.cat(hash, (err, res) => {
+      if (err) throw err
+      $catOutput.innerText = ''
+      console.log('got some data')
+      console.log(res)
+      res.on('data', (data) => {
+        $catOutput.innerText = $catOutput.innerText + data
+      })
+    })
+  }, false)
+}
 		</script>
 	</body>
 </html>

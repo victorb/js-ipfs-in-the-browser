@@ -5,7 +5,8 @@ const myPort = browser.runtime.connect({name: 'port-from-cs'})
 
 const makeCall = (method, args, cb) => {
   const listener = (m) => {
-    cb(cloneInto(m, window, {cloneFunctions: true}))
+    let {err, res} = m
+    cb(err, cloneInto(res, window, {cloneFunctions: true}))
     myPort.onMessage.removeListener(listener)
   }
   myPort.onMessage.addListener(listener)
@@ -14,7 +15,8 @@ const makeCall = (method, args, cb) => {
 
 const ipfs = {
   id: (callback) => { makeCall('id', null, callback) },
-  add: (args, callback) => { makeCall('add', args, callback) }
+  add: (args, callback) => { makeCall('add', args, callback) },
+  cat: (args, callback) => { makeCall('cat', args, callback) }
 }
 
 window.wrappedJSObject.ipfs = cloneInto(
