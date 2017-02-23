@@ -70,9 +70,12 @@ if (typeof window.ipfs === 'undefined') {
       $catOutput.innerText = ''
       console.log('got some data')
       console.log(res)
-      res.on('data', (data) => {
-        $catOutput.innerText = $catOutput.innerText + data
-      })
+      // TODO should return a stream, but can't get the stream to be passed down
+      // correctly...
+      // res.on('data', (data) => {
+      //   $catOutput.innerText = $catOutput.innerText + data
+      // })
+      $catOutput.innerText = res
     })
   }, false)
 }

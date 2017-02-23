@@ -47,7 +47,13 @@ spawn({}, (err, ipfsNode) => {
     },
     'cat': (args, send) => {
       ipfsNode.files.cat(args, (err, res) => {
-        send({err, res})
+        let data = ''
+        res.on('data', (d) => {
+          data = data + d.toString()
+        })
+        res.on('end', () => {
+          send({err, res: data})
+        })
       })
     }
   }
