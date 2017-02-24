@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "build": "browserify start-daemon.js -o dist/start-daemon.js",
+    "build": "browserify background-script.js -o dist/background-script.js",
     "package": "web-ext build",
     "sign": "web-ext sign"
   },

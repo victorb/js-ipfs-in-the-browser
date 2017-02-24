@@ -34,18 +34,17 @@ spawn({}, (err, ipfsNode) => {
 
   window.ipfs = ipfsNode
   const methods = {
-    'id': (args, send) => {
-      console.log('method#id')
+    id: (args, send) => {
       ipfsNode.id((err, id) => {
         send({err, res: id})
       })
     },
-    'add': (args, send) => {
+    add: (args, send) => {
       ipfsNode.files.add(new Buffer(args), (err, res) => {
         send({err, res})
       })
     },
-    'cat': (args, send) => {
+    cat: (args, send) => {
       ipfsNode.files.cat(args, (err, res) => {
         send({err, res})
       })

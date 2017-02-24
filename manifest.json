@@ -7,7 +7,7 @@
     "48": "icons/ipfs.svg"
   },
   "background": {
-    "scripts": ["dist/start-daemon.js"]
+    "scripts": ["dist/background-script.js"]
   },
   "browser_action": {
     "default_icon": "icons/ipfs-offline.svg"
