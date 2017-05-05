@@ -40,15 +40,15 @@ const ipfs = {
 //   })
 // }
 
-ipfs.cat('hash', (_, stream) => {
-  const data = []
-  stream.on('data', (d) => {
-    data.push(d.toString())
-  })
-  stream.on('end', () => {
-    console.log(data.join(''))
-  })
-})
+// ipfs.cat('hash', (err, content) => {
+//   const data = []
+//   stream.on('data', (d) => {
+//     data.push(d.toString())
+//   })
+//   stream.on('end', () => {
+//     console.log(data.join(''))
+//   })
+// })
 
 window.wrappedJSObject.ipfs = cloneInto(
   ipfs,

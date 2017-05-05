@@ -51,7 +51,6 @@ if (typeof window.ipfs === 'undefined') {
   $status.innerText = 'YEAH!'
   window.ipfs.id((err, res) => {
     if (err) throw err
-    console.log('Got ID')
     $peerID.innerText = res.id
   })
   $addButton.addEventListener('click', () => {
@@ -65,14 +64,11 @@ if (typeof window.ipfs === 'undefined') {
   }, false)
   $catButton.addEventListener('click', () => {
     const hash = $catInput.value
+			console.log('cat')
     window.ipfs.cat(hash, (err, res) => {
       if (err) throw err
-      $catOutput.innerText = ''
-      console.log('got some data')
-      console.log(res)
-      res.on('data', (data) => {
-        $catOutput.innerText = $catOutput.innerText + data
-      })
+			console.log('testpage', res)
+      $catOutput.innerText = res
     })
   }, false)
 }
