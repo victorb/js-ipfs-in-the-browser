@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "IPFS in the browser",
-  "version": "1.0",
+  "version": "1.2",
   "description": "Adds window.ipfs to all pages and starts a daemon in the background",
   "icons": {
     "48": "icons/ipfs.svg"
@@ -10,7 +10,9 @@
     "scripts": ["dist/background-script.js"]
   },
   "browser_action": {
-    "default_icon": "icons/ipfs-offline.svg"
+    "default_icon": "icons/ipfs-offline.svg",
+    "default_title": "IPFS",
+    "default_popup": "settings.html"
   },
   "content_scripts": [
     {
@@ -20,5 +22,5 @@
     }
   ],
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
-  "permissions": ["tabs", "http://*/*", "https://*/*"]
+  "permissions": ["webRequest", "webRequestBlocking", "tabs", "http://*/*", "https://*/*", "https://ipfs.io/ipfs/*"]
 }

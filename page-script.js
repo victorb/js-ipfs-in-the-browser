@@ -19,6 +19,37 @@ const ipfs = {
   cat: (args, callback) => { makeCall('cat', args, callback) }
 }
 
+// const cat = (hash, callback) => {
+//   const stream = (function () {
+//     this.on = (event, cb) => {
+//       this.events[event] = cb
+//     }
+//     this.emit = (event, data) => {
+//       this.events[event](data)
+//     }
+//     this.end = () => {
+//       this.events.end()
+//     }
+//   })()
+//   ipfs.cat(hash, (_, res) => {
+//     callback(stream)
+//     res.on('data', (data) => {
+//       stream.emit('data', data)
+//     })
+//     res.on('end', stream.end.bind(this))
+//   })
+// }
+
+ipfs.cat('hash', (_, stream) => {
+  const data = []
+  stream.on('data', (d) => {
+    data.push(d.toString())
+  })
+  stream.on('end', () => {
+    console.log(data.join(''))
+  })
+})
+
 window.wrappedJSObject.ipfs = cloneInto(
   ipfs,
   window,

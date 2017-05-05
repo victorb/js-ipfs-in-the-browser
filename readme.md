@@ -1,5 +1,9 @@
 ## js-ipfs in the browser
 
+### How it works?
+
+This extension runs a js-ipfs daemon in the background.
+
 ### Running locally
 
 * `npm install`
