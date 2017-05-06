@@ -3,29 +3,9 @@ require('setimmediate') // TODO js-ipfs fails without this in the ID call
 const spawn = require('./spawn-node.js')
 browser.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
 
-// var pattern = "https://ipfs.io/ipfs/*";
-// 
-// function redirect(requestDetails) {
-//   console.log("Redirecting: " + requestDetails.url);
-//   var makeItGreen = 'document.write("heeey")';
-//   var executing = browser.tabs.executeScript({
-//     code: makeItGreen
-//   });
-//   return {
-//     cancel: true
-//     // redirectUrl: "https://38.media.tumblr.com/tumblr_ldbj01lZiP1qe0eclo1_500.gif"
-//   };
-// }
-// 
-// browser.webRequest.onBeforeRequest.addListener(
-//   redirect,
-//   {urls:[pattern]},
-//   ["blocking"]
-// );
-
 let ipfs
-
 browser.browserAction.setBadgeText({text: '...'})
+
 spawn({}, (err, ipfsNode) => {
   if (err) throw err
     console.log('got node')
@@ -37,20 +17,12 @@ spawn({}, (err, ipfsNode) => {
   browser.browserAction.setBadgeText({text: "0"})
   setInterval(() => {
     console.log('checking for peers')
-    // ipfs.isOnline((isOnline) => {
-      // if (isOnline) {
-        // console.log('am online')
-        ipfs.swarm.peers((err, peers) => {
-          if (err) throw err
-          console.log('peers', peers)
-          const text = peers.length.toString()
-          browser.browserAction.setBadgeText({text})
-        })
-    //   } else {
-    //     console.log('offline :/')
-    //     browser.browserAction.setBadgeText({text: 'Offline'})
-    //   }
-    // })
+    ipfs.swarm.peers((err, peers) => {
+      if (err) throw err
+      console.log('peers', peers)
+      const text = peers.length.toString()
+      browser.browserAction.setBadgeText({text})
+    })
   }, 5000)
 
   // Toggle status of node
@@ -89,7 +61,6 @@ spawn({}, (err, ipfsNode) => {
       })
     },
     isOnline: (args, send) => {
-      // setImmediate(() => {
       ipfsNode.isOnline((err, res) => {
         send({err, res})
       })
@@ -100,13 +71,13 @@ spawn({}, (err, ipfsNode) => {
       })
     },
     cat: (args, send) => {
+      // TODO right now we join all the data and send it
+      // should be sending a stream instead
       ipfsNode.files.cat(args, (err, res) => {
         if (err) send({err})
         let data = ''
         res.on('data', (d) => {
           data = data + d.toString()
-          // data.push(d.toString())
-          // send({data})
         })
         res.on('end', () => {
           send({err: null, res: data})
@@ -131,5 +102,4 @@ spawn({}, (err, ipfsNode) => {
       }
     })
   })
-
 })

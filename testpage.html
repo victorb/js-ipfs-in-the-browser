@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width">
-		<title>window.ipfs test page</title>
-		<style>
-			body {
-				font-family: sans-serif;
-				height: 100vh;
-				background: linear-gradient(to bottom,#041727 0%,#062b3f 100%);
-				color: white;
-				text-align: center;
-				padding-top: 50px;
-			}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>window.ipfs test page</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        height: 100vh;
+        background: linear-gradient(to bottom,#041727 0%,#062b3f 100%);
+        color: white;
+        text-align: center;
+        padding-top: 50px;
+      }
 
-			div {
-				margin-top: 50px;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Is IPFS in the browser yet?</h1>
-		<div><code>window.ipfs</code> exists? <span id="status">Loading</span></div>
-		<div>Your ID: <span id='peerid'>N/A</span></div>
-		<div>
-			<h2>Add content</h2>
-			<input class='add-input' type="text"><button class='add-button'>Add</button>
+      div {
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Is IPFS in the browser yet?</h1>
+    <div><code>window.ipfs</code> exists? <span id="status">Loading</span></div>
+    <div>Your ID: <span id='peerid'>N/A</span></div>
+    <div>
+      <h2>Add content</h2>
+      <input class='add-input' type="text"><button class='add-button'>Add</button>
       <div class="add-output"></div>
-		</div>
-		<div>
-			<h2>Cat content</h2>
-			<input class='cat-input' type="text"><button class='cat-button'>Cat</button>
+    </div>
+    <div>
+      <h2>Cat content</h2>
+      <input class='cat-input' type="text"><button class='cat-button'>Cat</button>
       <div class="cat-output"></div>
-		</div>
-		<script>
+    </div>
+    <script>
 $status = document.querySelector('#status')
 $peerID = document.querySelector('#peerid')
 
@@ -51,27 +51,27 @@ if (typeof window.ipfs === 'undefined') {
   $status.innerText = 'YEAH!'
   window.ipfs.id((err, res) => {
     if (err) throw err
-    $peerID.innerText = res.id
+      $peerID.innerText = res.id
   })
   $addButton.addEventListener('click', () => {
     const content = $addInput.value
     window.ipfs.add(content, (err, res) => {
       if (err) throw err
-      console.log('Got res')
-      console.log(res)
-      $addOutput.innerText = res[0].hash
+        console.log('Got res')
+          console.log(res)
+          $addOutput.innerText = res[0].hash
     })
   }, false)
   $catButton.addEventListener('click', () => {
     const hash = $catInput.value
-			console.log('cat')
+    console.log('cat')
     window.ipfs.cat(hash, (err, res) => {
       if (err) throw err
-			console.log('testpage', res)
-      $catOutput.innerText = res
+        console.log('testpage', res)
+          $catOutput.innerText = res
     })
   }, false)
 }
-		</script>
-	</body>
+    </script>
+  </body>
 </html>
