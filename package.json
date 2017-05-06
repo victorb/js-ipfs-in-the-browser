@@ -18,7 +18,8 @@
     "test": "mocha",
     "build": "browserify background-script.js -o dist/background-script.js",
     "package": "web-ext build",
-    "sign": "web-ext sign"
+    "sign": "web-ext sign",
+		"deploy": "yarn build && yarn package && yarn sign"
   },
   "keywords": [],
   "author": "Victor Bjelkholm <victorbjelkholm@gmail.com>",
