@@ -17,8 +17,13 @@ h1 {
   margin-bottom: 5px;
 }
 
-.id {
+.id, .peer-ids {
   font-size: 11px;
+}
+
+.peer-ids {
+  max-height: 50px;
+  overflow-y: scroll;
 }
 
 .section {

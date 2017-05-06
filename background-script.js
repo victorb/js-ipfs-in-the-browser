@@ -12,6 +12,7 @@ spawn({}, (err, ipfsNode) => {
 
   ipfs = ipfsNode
   window.ipfsNode = ipfsNode
+  const ID = ipfsNode._peerInfo.id._idB58String
   browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
 
   browser.browserAction.setBadgeText({text: "0"})
@@ -61,8 +62,31 @@ spawn({}, (err, ipfsNode) => {
       })
     },
     isOnline: (args, send) => {
-      ipfsNode.isOnline((err, res) => {
-        send({err, res})
+      console.log('background checking if online')
+      setImmediate(() => {
+        send({err: null, res: ipfsNode._libp2pNode.isOnline})
+      })
+    },
+    goOnline: (args, send) => {
+      ipfsNode.start(() => {
+        browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
+        send({err: null, res: true})
+      })
+    },
+    goOffline: (args, send) => {
+      ipfsNode.stop(() => {
+        browser.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
+        browser.browserAction.setBadgeText({text: 'Offline'})
+        send({err: null, res: true})
+      })
+    },
+    swarmAddresses: () => {
+      ipfsNode.config.get((err, config) => {
+        let adddresses = []
+        config.Addresses.Swarm.forEach((address) => {
+          adddresses.push(address + '/ipfs/' + ID)
+        })
+        send({err, res: addresses})
       })
     },
     add: (args, send) => {
