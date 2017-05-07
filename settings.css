@@ -1,5 +1,7 @@
 body, html {
   margin: 0px; padding: 0px;
+	border: 1px solid white;
+	border-radius: 5px;
 }
 body {
   margin: 0px; padding: 5px;

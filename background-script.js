@@ -24,7 +24,7 @@ spawn({}, (err, ipfsNode) => {
       const text = peers.length.toString()
       browser.browserAction.setBadgeText({text})
     })
-  }, 5000)
+  }, 1000)
 
   // Toggle status of node
   // browser.browserAction.onClicked.addListener(() => {
@@ -99,11 +99,14 @@ spawn({}, (err, ipfsNode) => {
       // should be sending a stream instead
       ipfsNode.files.cat(args, (err, res) => {
         if (err) send({err})
+        console.log('getting ', res)
         let data = ''
         res.on('data', (d) => {
+          console.log('data ', d)
           data = data + d.toString()
         })
         res.on('end', () => {
+          console.log('sending', data)
           send({err: null, res: data})
         })
       })
