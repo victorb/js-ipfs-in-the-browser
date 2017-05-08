@@ -1,25 +1,26 @@
 {
-  "name": "js-ipfs-in-the-browser",
-  "version": "1.0.1",
-  "description": "",
-  "main": "page-script.js",
+  "name": "webext-js-ipfs",
+  "version": "0.0.0",
+  "description": "Bundle js-ipfs into a WebExtension so that it is accessible over window.IPFS",
+  "main": "src/index.js",
   "dependencies": {
-    "babel-preset-es2015": "^6.22.0",
-    "babelify": "^7.3.0",
-    "browserify": "^14.1.0",
-    "ipfs": "^0.22.0",
-    "setimmediate": "^1.0.5"
+    "bl": "^1.2.1",
+    "browserify-zlib-next": "^1.0.1",
+    "ipfs": "^0.23.1",
+    "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
-    "web-ext": "^1.8.1"
+    "web-ext": "^1.9.1",
+    "webpack": "^2.5.1"
   },
   "scripts": {
-    "test": "mocha",
-    "build": "browserify start-daemon.js -o dist/start-daemon.js",
+    "build": "webpack",
     "package": "web-ext build",
     "sign": "web-ext sign"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "IPFS",
+    "WebExtension"
+  ],
+  "license": "MIT"
 }
