@@ -1,4 +1,6 @@
-## js-ipfs in the browser
+## webext-js-ipfs
+
+> Run js-ipfs inside a WebExtension
 
 ### Running locally
 

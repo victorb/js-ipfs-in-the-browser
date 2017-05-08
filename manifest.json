@@ -1,21 +1,21 @@
 {
   "manifest_version": 2,
-  "name": "IPFS in the browser",
-  "version": "1.0.1",
-  "description": "Adds window.ipfs to all pages and starts a daemon in the background",
+  "name": "webext-js-ipfs",
+  "version": "0.0.1",
+  "description": "",
   "icons": {
-    "48": "icons/ipfs.svg"
+    "48": "icons/online.svg"
   },
   "background": {
-    "scripts": ["dist/start-daemon.js"]
+    "scripts": ["dist/bundle.js"]
   },
   "browser_action": {
-    "default_icon": "icons/ipfs-offline.svg"
+    "default_icon": "icons/offline.svg"
   },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["content-script.js"],
+      "js": ["src/content-script.js"],
       "run_at": "document_start"
     }
   ],
