@@ -1,10 +1,10 @@
-/* global browser */
 require('setimmediate') // TODO js-ipfs fails without this in the ID call
 const spawn = require('./spawn-node.js')
-browser.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
+const extension = require('extensionizer')
+extension.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
 
 let ipfs
-browser.browserAction.setBadgeText({text: '...'})
+extension.browserAction.setBadgeText({text: '...'})
 
 spawn({}, (err, ipfsNode) => {
   if (err) throw err
@@ -13,16 +13,16 @@ spawn({}, (err, ipfsNode) => {
   ipfs = ipfsNode
   window.ipfsNode = ipfsNode
   const ID = ipfsNode._peerInfo.id._idB58String
-  browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
+  extension.browserAction.setIcon({path: '/icons/ipfs.svg'})
 
-  browser.browserAction.setBadgeText({text: "0"})
+  extension.browserAction.setBadgeText({text: "0"})
   setInterval(() => {
     console.log('checking for peers')
     ipfs.swarm.peers((err, peers) => {
       if (err) throw err
       console.log('peers', peers)
       const text = peers.length.toString()
-      browser.browserAction.setBadgeText({text})
+      extension.browserAction.setBadgeText({text})
     })
   }, 1000)
 
@@ -44,7 +44,7 @@ spawn({}, (err, ipfsNode) => {
 
   console.log('seen welcome screen already?', seenWelcomeScreen)
   if (!seenWelcomeScreen) {
-    browser.tabs.create({url: 'welcome-screen.html'})
+    extension.tabs.create({url: 'welcome-screen.html'})
     window.localStorage.setItem('seen-welcome-screen', true)
   }
 
@@ -69,14 +69,14 @@ spawn({}, (err, ipfsNode) => {
     },
     goOnline: (args, send) => {
       ipfsNode.start(() => {
-        browser.browserAction.setIcon({path: '/icons/ipfs.svg'})
+        extension.browserAction.setIcon({path: '/icons/ipfs.svg'})
         send({err: null, res: true})
       })
     },
     goOffline: (args, send) => {
       ipfsNode.stop(() => {
-        browser.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
-        browser.browserAction.setBadgeText({text: 'Offline'})
+        extension.browserAction.setIcon({path: '/icons/ipfs-offline.svg'})
+        extension.browserAction.setBadgeText({text: 'Offline'})
         send({err: null, res: true})
       })
     },
@@ -114,7 +114,7 @@ spawn({}, (err, ipfsNode) => {
   }
 
   console.log('setting up browser communication')
-  browser.runtime.onConnect.addListener((port) => {
+  extension.runtime.onConnect.addListener((port) => {
     console.log('got port, listening')
     port.onMessage.addListener((m) => {
       if (methods[m.method] !== undefined) {

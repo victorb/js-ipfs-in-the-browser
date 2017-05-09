@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["page-script.js"],
+      "js": ["dist/page-script.js"],
       "run_at": "document_start"
     }
   ],

@@ -1,7 +1,8 @@
 /* global browser, cloneInto */
+const extension = require('extensionizer')
 console.log('declared a public ipfs object!')
 
-const myPort = browser.runtime.connect({name: 'port-from-cs'})
+const myPort = extension.runtime.connect({name: 'port-from-cs'})
 
 const makeCall = (method, args, cb) => {
   const listener = (m) => {
